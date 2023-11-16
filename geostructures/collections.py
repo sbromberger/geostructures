@@ -548,11 +548,12 @@ class Track(ShapeCollection, LoggingMixin, DefaultZuluMixin):
     A sequence of chronologically-ordered (by start time) GeoShapes
     """
 
-    def __init__(self, geoshapes: List[GeoShape]):
-        if not all(x.dt for x in geoshapes):
+    def __init__(self, geoshapes: Sequence[GeoShape]):
+        gslist = list(geoshapes)
+        if not all(x.dt for x in gslist):
             raise ValueError('All track geoshapes must have an associated time value.')
 
-        super().__init__(sorted(geoshapes, key=lambda x: x.start))
+        super().__init__(sorted(gslist, key=lambda x: x.start))
 
     def __add__(self, other):
         if not isinstance(other, Track):
